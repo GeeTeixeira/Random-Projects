@@ -63,27 +63,26 @@ def findX(vals):
 def polyCalc(poly):
     degree = poly.degree
     exp = poly.expression
-    print(degree,exp)
     triangle = generateTriangle(degree) # create pascal's triangle
+    triangle = triangle[len(triangle)-1] #get last level of the triangle
     vals = splitExp(exp) #split the expression into 2 terms x-2 into x,2
-    
     boolean = findX(vals) #find if X is the first term
-    print(boolean)
     
     leftDegree = degree
     rightDegree = 0
     intVal = 0
 
     listPol = polynomialLinkedList()
+    #values in poly and linked list DONE
+    #must fix signs of values
     while(leftDegree >= 0 and rightDegree <= degree):
         if(boolean):
-            intVal = int(vals[1])**rightDegree
-            print(vals[1],intVal)
+            intVal = (int(vals[1])**rightDegree)*int(triangle[rightDegree])
             x = str(intVal)+vals[0]
             newPol = polynomial(x,leftDegree)
             listPol.setNext(newPol)
         else:
-            intVal =int(vals[0])**leftDegree
+            intVal =int(vals[0])**leftDegree*int(triangle[rightDegree])
             x = str(intVal)+"*"+vals[1]
             listPol.setNext(polynomial(x,rightDegree))
         leftDegree-=1
