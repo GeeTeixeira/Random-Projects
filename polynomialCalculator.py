@@ -1,25 +1,29 @@
-class polynomial:
-    self.expression = None
-    self.degree = 0
+import math
+class polynomial():
     def __init__(self, exp , deg):
         self.expression = exp
         self.degree = deg
+        self.next = None
     def toString(self):
-        print(self.expression+"^"+self.degree)
-class polynomialLinkedList:
-    self.head = None
-    self.next = None
-    def __init__(self,exp):
-        self.head = exp
+        print("("+self.expression+")^"+str(self.degree))
+        
+class polynomialLinkedList():
+    def __init__(self):
+        self.head = None
     def setNext(self,nextNode):
-        self.next = nextNode
+        if(self.head != None):
+            holder = self.head
+            while(holder.next != None):
+                holder = holder.next
+            holder.next = nextNode
+        else:
+            self.head = nextNode
     def toString(self):
         pointer = self.head
         while(pointer != None):
-            print(pointer.toString())
+            print(pointer.expression+"^"+str(pointer.degree),end=" ")
             pointer = pointer.next
 
-    
 def generateTriangle(level):
   x = 0
   triangle = []
@@ -56,15 +60,33 @@ def findX(vals):
         return True
     return False
 
-def polyCalc(pTriangle, expression):
-    degree = expression.degree
-    exp = expression.expression
+def polyCalc(poly):
+    degree = poly.degree
+    exp = poly.expression
+    print(degree,exp)
     triangle = generateTriangle(degree) # create pascal's triangle
     vals = splitExp(exp) #split the expression into 2 terms x-2 into x,2
-    boolean = findX(vals) #find if X is the first term 
-    xDegree = degree
-    intDegree = 0
+    
+    boolean = findX(vals) #find if X is the first term
+    print(boolean)
+    
+    leftDegree = degree
+    rightDegree = 0
     intVal = 0
-    while(xDegree >= 0 and intDegree >= degree):
-        
+
+    listPol = polynomialLinkedList()
+    while(leftDegree >= 0 and rightDegree <= degree):
+        if(boolean):
+            intVal = int(vals[1])**rightDegree
+            print(vals[1],intVal)
+            x = str(intVal)+vals[0]
+            newPol = polynomial(x,leftDegree)
+            listPol.setNext(newPol)
+        else:
+            intVal =int(vals[0])**leftDegree
+            x = str(intVal)+"*"+vals[1]
+            listPol.setNext(polynomial(x,rightDegree))
+        leftDegree-=1
+        rightDegree+=1
+    return listPol
     
