@@ -1,7 +1,7 @@
 def generateTriangle(level):
   x = 0
   triangle = []
-  while(x<=+1):
+  while(x<=level+1):
     if(x==0):
       triangle.append([1])
       x+=1
